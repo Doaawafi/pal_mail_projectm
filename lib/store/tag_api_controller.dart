@@ -8,7 +8,7 @@ class TagApiController{
   Future<ApiResponse> GetAllTag({required bool mail}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.get(
-      Uri.parse("${tagsURL}"),
+      Uri.parse("${ApiSettings.tagsURL}"),
       headers: {"Accept": "application/json"},
     );
     apiResponse.data=Tags.fromJson(jsonDecode(response.body));

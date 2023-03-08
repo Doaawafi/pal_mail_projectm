@@ -4,12 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utils/constant.dart';
 
 class CategoryWidget extends StatelessWidget {
-  Color color;
-  String text;
+  final int color;
+  final String text;
+
+  final String num;
   CategoryWidget({
     required this.color,
     required this.text,
     super.key,
+    required this.num,
   });
 
   @override
@@ -34,14 +37,14 @@ class CategoryWidget extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 14.r,
-                  backgroundColor: color,
+                  backgroundColor: Color(color),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 16.0, right: 16, top: 14, bottom: 9),
                 child: Text(
-                  '9',
+                  '$num',
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),

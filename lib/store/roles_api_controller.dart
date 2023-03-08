@@ -8,7 +8,7 @@ class RoleApiController {
   Future<ApiResponse> GetAllRole({required bool mail}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.get(
-      Uri.parse("${rolesURL}"),
+      Uri.parse("${ApiSettings.rolesURL}"),
       headers: {"Accept": "application/json"},
     );
     apiResponse.data=Role.fromJson(jsonDecode(response.body));

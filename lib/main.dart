@@ -6,6 +6,7 @@ import 'package:pal_mail_project/screens/category.dart';
 import 'package:pal_mail_project/screens/home/home.dart';
 import 'package:pal_mail_project/screens/auth/login.dart';
 import 'package:pal_mail_project/screens/new_inbox.dart';
+import 'package:pal_mail_project/screens/profile.dart';
 import 'package:pal_mail_project/screens/search_screen.dart';
 import 'package:pal_mail_project/screens/sender_search.dart';
 import 'package:pal_mail_project/screens/serach_filter.dart';
@@ -19,7 +20,7 @@ import 'package:pal_mail_project/utils/prefs.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefController().initPreferences();
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +28,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       minTextAdapt: true,
       designSize: const Size(428, 926),
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             AuthScreen.id: (context) => AuthScreen(),
             Login.id: (context) => Login(),
             SignUp.id: (context) => SignUp(),
-           // HomeScreen.id: (context) => HomeScreen(),
+            HomeScreen.id: (context) => HomeScreen(),
             DetailsScreen.id: (context) => DetailsScreen(),
             NewInbox.id: (context) => NewInbox(),
             StatusScreen.id: (context) => StatusScreen(),
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
             TagScreen.id: (context) => TagScreen(),
             SenderSearch.id: (context) => SenderSearch(),
             SearchScreen.id: (context) => SearchScreen(),
-         //  Profile.id: (context) => Profile(),
+            Profile.id: (context) => Profile(),
           },
         );
       },

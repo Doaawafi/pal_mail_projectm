@@ -8,7 +8,7 @@ import 'package:pal_mail_project/model/mail.dart';
 class MailApiService {
 Future<ApiResponse> createMail({required Mail mail})async{
   ApiResponse apiResponse = ApiResponse();
-   final http.Response response = await http.post(Uri.parse('$mailsURL'),
+   final http.Response response = await http.post(Uri.parse('$ApiSettings.mailsURL'),
        headers: {
           "Accept": "application/json"
        },
@@ -32,7 +32,7 @@ Future<ApiResponse> createMail({required Mail mail})async{
 
 Future<ApiResponse> GetAllMAil()async{
  ApiResponse apiResponse = ApiResponse();
- final http.Response response = await http.get(Uri.parse('$mailsURL'),
+ final http.Response response = await http.get(Uri.parse('${ApiSettings.mailsURL}'),
      headers: {
       "Accept": "application/json"},
      );

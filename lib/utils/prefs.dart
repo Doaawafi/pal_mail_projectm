@@ -18,17 +18,37 @@ class SharedPrefController {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<void> save({required User user,required String password}) async {
+  Future<void> save({required Map<String, dynamic> user}) async {
     await _sharedPreferences.setBool('logged_in', true);
-    await _sharedPreferences.setString('id', user.id.toString());
-    await _sharedPreferences.setString('email', user.email.toString());
-    await _sharedPreferences.setString('password_confirmation',password);
-    await _sharedPreferences.setString('name', user.name.toString());
+    await _sharedPreferences.setInt('id', user['id']);
+    print('${_sharedPreferences.getInt('id')}');
+    await _sharedPreferences.setString('email', user['email']);
+    await _sharedPreferences.setString('image', user['image']);
+
+    await _sharedPreferences.setString('name', user['name']);
   }
 
   Future<void> getToken({required String token}) async {
     await _sharedPreferences.setBool('logged_in', true);
     await _sharedPreferences.setString('token', 'Bearer ${token}');
+  }
+
+  Future<void> profile({required String name, required String image}) async {
+    print('${_sharedPreferences.getInt('name')}');
+    await _sharedPreferences.setString('name', name);
+    await _sharedPreferences.setString('image', image);
+  }
+
+  int? getID({required String key}) {
+    return _sharedPreferences.getInt(key);
+  }
+
+  String? getName({required String key}) {
+    return _sharedPreferences.getString(key);
+  }
+
+  String? getEmail({required String key}) {
+    return _sharedPreferences.getString(key);
   }
 
   bool get LoggedIn => _sharedPreferences.getBool('logged_in') ?? false;

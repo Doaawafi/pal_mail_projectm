@@ -10,7 +10,7 @@ class SenderApiController{
   Future<ApiResponse> GetAllSender({required bool mail}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.get(
-      Uri.parse("${sendersURL}?mail=${mail}"),
+      Uri.parse("${ApiSettings.sendersURL}?mail=${mail}"),
       headers: {"Accept": "application/json"},
     );
     apiResponse.data=Sender.fromJson(jsonDecode(response.body));
@@ -20,7 +20,7 @@ class SenderApiController{
   Future<ApiResponse> createSender({required Sender sender}) async {
     ApiResponse apiResponse = ApiResponse();
     final http.Response response =
-    await http.post(Uri.parse(sendersURL), headers: {
+    await http.post(Uri.parse(ApiSettings.sendersURL), headers: {
       "Accept": "application/json"
     }, body: {
       "subject": sender.id,
@@ -38,7 +38,7 @@ class SenderApiController{
   Future<ApiResponse> GetSingleSender({required bool mail,required int num}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.get(
-      Uri.parse("${sendersURL}/${num}?mail=${mail}"),
+      Uri.parse("${ApiSettings.sendersURL}/${num}?mail=${mail}"),
       headers: {"Accept": "application/json"},
     );
     apiResponse.data=Sender.fromJson(jsonDecode(response.body));
@@ -48,7 +48,7 @@ class SenderApiController{
   Future<ApiResponse> PutUpdateSender({required Sender sender}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.put(
-      Uri.parse("${sendersURL}/${sender.id}"),
+      Uri.parse("${ApiSettings.sendersURL}/${sender.id}"),
       headers: {"Accept": "application/json"},
       body: {
         "name":sender.name,
@@ -63,7 +63,7 @@ class SenderApiController{
   Future<ApiResponse> DeldeleteSender({required Sender sender}) async {
     ApiResponse apiResponse = ApiResponse();
     http.Response response = await http.put(
-        Uri.parse("${sendersURL}/${sender.id}"),
+        Uri.parse("${ApiSettings.sendersURL}/${sender.id}"),
         headers: {"Accept": "application/json"},
         body: {
           "name":sender.name,

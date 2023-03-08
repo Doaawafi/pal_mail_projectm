@@ -1,14 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pal_mail_project/api/api_setting.dart';
-import 'package:pal_mail_project/model/api_response.dart';
-import 'package:http/http.dart' as http;
-import 'package:pal_mail_project/utils/prefs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../api/Auth/auth_api_controller.dart';
 import '../../model/user.dart';
 import '../../utils/constant.dart';
@@ -47,6 +41,8 @@ class _SignUpState extends State<SignUp> {
     _emailController.dispose();
     super.dispose();
   }
+
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,26 +88,27 @@ class _SignUpState extends State<SignUp> {
               ),
               TextButton(
                 onPressed: () async {
-                  await _performRegister(_nameController.text.toString(),
-                      _emailController.text.toString(),
-                      _passwordController.text.toString(),
-                      _ConfirmpasswordController.text.toString());
+                  await _performRegister();
                 },
                 child: Container(
                   width: double.infinity,
                   height: 48.h,
-                  child: Center(
-                      child: Text(
-                        'SIGN UP',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
+                  child: loading
+                      ? CircularProgressIndicator(
                           color: Colors.white,
-                        ),
-                      )),
+                        )
+                      : Center(
+                          child: Text(
+                          'SIGN UP',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            color: Colors.white,
+                          ),
+                        )),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22),
                       gradient:
-                      LinearGradient(begin: Alignment.bottomLeft, colors: [
+                          LinearGradient(begin: Alignment.bottomLeft, colors: [
                         primaryColor,
                         Color(0xff6589FF),
                       ])),
@@ -157,105 +154,53 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Future<void> _performRegister(String name, String email,
-      String password, String password_confirmation) async {
-    ApiResponse apiResponse = ApiResponse();
-    try {
-      final responce = await http.post(Uri.parse(register), headers: {
-        "Accept": "application/json"
-      },
-          body: {
-            "name": name,
-            "password_confirmation": password_confirmation,
-            "password": password,
-            "email": email
-          });
-      print("the "+responce.body);
-      print(responce.statusCode);
-      switch(responce.statusCode){
-        case 200:
-          {
-            print("jkbrfjhf");
-            clear();
-            apiResponse.data = User.fromJson(jsonDecode(responce.body));
-            User user=apiResponse.data as User;
-           print(user.token);
-            print("regiseter secuss");
-            //Navigator.pushNamed(context, HomeScreen.id,arguments: HomeScreen(data: user,));
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  HomeScreen(data: user,)),
-            );
-            break;
-          }
-
-        case 422:
-            apiResponse.error= jsonDecode(responce.body)['errors'];
-          break;
-        case 403:
-          {
-            apiResponse.error  = jsonDecode(responce.body)['message'];
-          }
-          break;
-        default:
-          apiResponse.error="somethingWentWrong";
-      }
-    }
-    catch(e){
-      print("User Service :"+e.toString());
+  Future<void> _performRegister() async {
+    if (_checkData()) {
+      await _register();
     }
   }
-Future <void> clear()async{
-  await SharedPrefController().clear();
 
-}
+  bool _checkData() {
+    if (_nameController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _ConfirmpasswordController.text.isNotEmpty) {
+      return true;
+    }
+    print('empty dats : ${_nameController.text},,,${_passwordController.text}');
+    return false;
+  }
 
+  _register() async {
+    bool statues = await AuthApiController().register(
+      user: user,
+      BuildContext: context,
+    );
+    print(' statues ::: $statues');
+    if (statues) {
+      setState(() {
+        loading = true;
+      });
+      Navigator.pushReplacementNamed(context, HomeScreen.id);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Sign upSuccessfully',
+            style: TextStyle(fontSize: 22.sp),
+          ),
+          duration: Duration(seconds: 3),
+          padding: EdgeInsets.all(22),
+          backgroundColor: primaryColor,
+        ),
+      );
+    }
+  }
+
+  User get user {
+    User user = User();
+    user.email = _emailController.text;
+    user.name = _nameController.text;
+    user.password = _passwordController.text;
+    user.Conpassword = _ConfirmpasswordController.text;
+    return user;
+  }
 }
-//
-//   Future<void> _performRegister() async {
-//     if (_checkData()) {
-//       await _register();
-//     }
-//   }
-//
-//   bool _checkData() {
-//     if (_nameController.text.isNotEmpty &&
-//         _passwordController.text.isNotEmpty &&
-//         _ConfirmpasswordController.text.isNotEmpty) {
-//       return true;
-//     }
-//     print('empty dats : ${_nameController.text},,,${_passwordController.text}');
-//     return false;
-//   }
-//
-//   _register() async {
-//     bool statues = await AuthApiController().register(
-//       user: user,
-//       BuildContext: context,
-//     );
-//     print(' statues ::: $statues');
-//     if (statues) {
-//       Navigator.pushReplacementNamed(context, HomeScreen.id);
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text(
-//             'Sign upSuccessfully',
-//             style: TextStyle(fontSize: 22.sp),
-//           ),
-//           duration: Duration(seconds: 3),
-//           padding: EdgeInsets.all(22),
-//           backgroundColor: primaryColor,
-//         ),
-//       );
-//     }
-//   }
-//
-//   User get user {
-//     User user = User();
-//     user.email = _emailController.text;
-//     user.name = _nameController.text;
-//     user.password = _passwordController.text;
-//     user.Conpassword = _ConfirmpasswordController.text;
-//     return user;
-//   }
-// }
