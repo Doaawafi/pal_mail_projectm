@@ -30,14 +30,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  List _loadedData = [];
+  List _loadedStatues = [];
+  List _CategoryName = [];
+  List _tag = [];
 
   @override
   void initState() {
-    _fetchData();
+    _fetchStatues();
+    _fetchCategory();
+    _fetchTages();
     super.initState();
   }
 
+  @override
   final String organizationName = 'Organization Name',
       date = 'Today, 11:00 AM',
       other =
@@ -47,11 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
       image = 'images/example.jpg';
 
   // The function that fetches data from the API
-  Future<void> _fetchData() async {
+  Future<void> _fetchStatues() async {
     String token = SharedPrefController().getValueFor('token');
 
     final response = await http.get(
-      Uri.parse(ApiSettings.statusesURL),
+      Uri.parse(statusesURL),
       headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'Content-Type': 'application/json; charset=UTF-8',
@@ -60,7 +65,44 @@ class _HomeScreenState extends State<HomeScreen> {
     final data = json.decode(response.body)['statuses'];
 
     setState(() {
-      _loadedData = data;
+      _loadedStatues = data;
+      // print('statues$_loadedData');
+    });
+  }
+
+  Future<void> _fetchTages() async {
+    String token = SharedPrefController().getValueFor('token');
+
+    final response = await http.get(
+      Uri.parse(tagsURL),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    final data = json.decode(response.body)['tags'];
+
+    setState(() {
+      _tag = data;
+      // print('statues$_loadedData');
+    });
+  }
+
+  Future<void> _fetchCategory() async {
+    String token = SharedPrefController().getValueFor('token');
+
+    final response = await http.get(
+      Uri.parse(categoriesURL),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    dynamic data = json.decode(response.body)['categories'];
+
+    setState(() {
+      _CategoryName = data;
+      print('category data $_CategoryName');
     });
   }
 
@@ -103,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SearchBox(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _loadedData.isEmpty
+            child: _loadedStatues.isEmpty
                 ? Center(child: CircularProgressIndicator())
                 : GridView.builder(
                     shrinkWrap: true,
@@ -112,125 +154,58 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 16.h,
                         crossAxisSpacing: 16.w),
-                    itemCount: _loadedData.length,
+                    itemCount: _loadedStatues.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return CategoryWidget(
-                        color: int.parse(_loadedData[index]['color']),
-                        text: _loadedData[index]['name'],
-                        num: _loadedData[index]['mails_count'],
+                        color: int.parse(_loadedStatues[index]['color']),
+                        text: _loadedStatues[index]['name'],
+                        num: _loadedStatues[index]['mails_count'],
                       );
                     },
                   ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
-            child: Theme(
-              data: ThemeData().copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                childrenPadding: const EdgeInsets.only(bottom: 20),
-                initiallyExpanded: true,
-                title: Text(
-                  'Official Organization',
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 20.0.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                children: [
-                  Container(
-                    decoration: inboxDecoration,
-                    padding: const EdgeInsets.all(16),
-                    child: OrganizationNameBox(
-                      organizationName: organizationName,
-                      date: date,
-                      subject: subject,
-                      other: other,
-                      isVisible: true,
-                      color: blueLightColor,
-                      tags: tags,
-                      image: image,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 36.w,
-              top: 15.h,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'NGOs',
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '12 ',
-                      style: GoogleFonts.poppins(
-                          color: subTitleColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      size: 12,
-                      color: subTitleColor,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
-            child: Theme(
-              data: ThemeData().copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                initiallyExpanded: true,
-                title: Text(
-                  'Others',
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 20.0.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                children: [
-                  Container(
-                    decoration: inboxDecoration,
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        OrganizationNameBox(
-                          organizationName: organizationName,
-                          date: date,
-                          subject: subject,
-                          other: other,
-                          isVisible: false,
-                          color: redCatColor,
+            child: _CategoryName.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _CategoryName.length,
+                    itemBuilder: (context, index) {
+                      return Theme(
+                        data: ThemeData()
+                            .copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          childrenPadding: const EdgeInsets.only(bottom: 20),
+                          initiallyExpanded: true,
+                          title: Text(
+                            _CategoryName[index]['name'],
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 20.0.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          children: [
+                            Container(
+                              decoration: inboxDecoration,
+                              padding: const EdgeInsets.all(16),
+                              child: OrganizationNameBox(
+                                organizationName: organizationName,
+                                date: date,
+                                subject: subject,
+                                other: other,
+                                isVisible: true,
+                                color: blueLightColor,
+                                tags: tags,
+                                image: image,
+                              ),
+                            ),
+                          ],
                         ),
-                        OrganizationNameBox(
-                          organizationName: organizationName,
-                          date: date,
-                          subject: subject,
-                          other: other,
-                          isVisible: false,
-                          color: yellowCatColor,
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                ],
-              ),
-            ),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -248,36 +223,63 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: Container(
               decoration: inboxDecoration,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        TagContainer(
-                          text: 'All Tags',
-                        ),
-                        TagContainer(
-                          text: '#Urgent ',
-                        ),
-                        TagContainer(
-                          text: '#Egyptian Military ',
-                        ),
-                      ],
+              child: _tag.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 2.2,
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 8.h,
+                          crossAxisSpacing: 8.w),
+                      itemCount: _tag.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: TagContainer(
+                            text: _tag[index]['name'],
+                          ),
+                        );
+                      },
                     ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    const TagContainer(
-                      text: '#New ',
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
+
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          //   child: Container(
+          //     decoration: inboxDecoration,
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(16),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: const [
+          //               TagContainer(
+          //                 text: 'All Tags',
+          //               ),
+          //               TagContainer(
+          //                 text: '#Urgent ',
+          //               ),
+          //               TagContainer(
+          //                 text: '#Egyptian Military ',
+          //               ),
+          //             ],
+          //           ),
+          //           SizedBox(
+          //             height: 8.h,
+          //           ),
+          //           const TagContainer(
+          //             text: '#New ',
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Container(
             height: 57.h,
             decoration: const BoxDecoration(

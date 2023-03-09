@@ -14,10 +14,9 @@ class TagContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: const Color(0xffE6E6E6),
           borderRadius: BorderRadius.circular(25.r)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: Center(
         child: Text(
-          text,
+          '#$text',
           style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
               fontSize: 14.sp,

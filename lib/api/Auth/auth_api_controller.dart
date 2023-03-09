@@ -13,7 +13,7 @@ class AuthApiController {
       {required BuildContext,
       required String email,
       required String password}) async {
-    Uri uri = Uri.parse(ApiSettings.login);
+    Uri uri = Uri.parse(loginURL);
     http.Response response = await http.post(
       uri,
       body: {
@@ -44,7 +44,7 @@ class AuthApiController {
 
   Future<bool> register(
       {required BuildContext BuildContext, required User user}) async {
-    Uri uri = Uri.parse(ApiSettings.register);
+    Uri uri = Uri.parse(registerURL);
     http.Response response = await http.post(uri, body: {
       'email': user.email,
       'password': user.password,
@@ -85,7 +85,7 @@ class AuthApiController {
     print('kclmackacmaa');
 
     String token = SharedPrefController().getValueFor('token');
-    Uri uri = Uri.parse(ApiSettings.logout);
+    Uri uri = Uri.parse(logoutURL);
     http.Response response = await http.post(uri, headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token',
