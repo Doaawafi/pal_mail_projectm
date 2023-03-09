@@ -8,9 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:pal_mail_project/screens/search_screen.dart';
 import 'package:pal_mail_project/utils/constant.dart';
+
 import '../../api/api_setting.dart';
-import '../../model/status.dart';
-import '../../model/user.dart';
 import '../../utils/prefs.dart';
 import '../../widget/category_widget.dart';
 import '../../widget/organization_name_box.dart';
@@ -51,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String token = SharedPrefController().getValueFor('token');
 
     final response = await http.get(
-      Uri.parse(ApiSettings.statusesURL),
+      Uri.parse(statusesURL),
       headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'Content-Type': 'application/json; charset=UTF-8',

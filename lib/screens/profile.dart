@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
   ImagePicker _imagePicker = ImagePicker();
   Future<int> updateProfile(XFile file, name) async {
     String token = SharedPrefController().getValueFor('token');
-    var request = http.MultipartRequest("POST", Uri.parse(ApiSettings.update));
+    var request = http.MultipartRequest("POST", Uri.parse(updateURL));
 //create multipart using filepath, string or bytes
     var pic = await http.MultipartFile.fromPath('image', file.path);
     request.fields['name'] = name;
@@ -130,34 +130,34 @@ class _ProfileState extends State<Profile> {
                               child: Container(
                                 child: xFile == null
                                     ? const CircleAvatar(
-                                  radius: 54,
-                                  child: Center(
-                                    child:
-                                    Icon(Icons.camera_alt_outlined),
-                                  ),
-                                )
+                                        radius: 54,
+                                        child: Center(
+                                          child:
+                                              Icon(Icons.camera_alt_outlined),
+                                        ),
+                                      )
                                     : Container(
-                                  height: 150,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(150),
-                                  ),
-                                  child: Center(
-                                    child: ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(50),
-                                      child: Image.file(
-                                        File(SharedPrefController()
-                                            .getValueFor('image') ??
-                                            xFile!.path),
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 100,
+                                        height: 150,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(150),
+                                        ),
+                                        child: Center(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: Image.file(
+                                              File(SharedPrefController()
+                                                      .getValueFor('image') ??
+                                                  xFile!.path),
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 100,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                             Positioned(
@@ -305,7 +305,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 onPressed: () async {
                   final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
+                      await SharedPreferences.getInstance();
 
                   setState(() {
                     prefs.setString("name", _nameController.text);
@@ -315,17 +315,17 @@ class _ProfileState extends State<Profile> {
                 },
                 child: loading
                     ? Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ))
+                        child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ))
                     : Text(
-                  'Update Profile',
-                  style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                ),
+                        'Update Profile',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
             SizedBox(
@@ -345,7 +345,7 @@ class _ProfileState extends State<Profile> {
     String token = SharedPrefController().getValueFor('token');
 
     bool processResponse =
-    await AuthApiController().logout(BuildContext: context);
+        await AuthApiController().logout(BuildContext: context);
     if (processResponse) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, AuthScreen.id);
@@ -357,7 +357,7 @@ class _ProfileState extends State<Profile> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     XFile? pickedImage =
-    await _imagePicker.pickImage(source: ImageSource.gallery);
+        await _imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         xFile = pickedImage;
