@@ -21,11 +21,12 @@ class SharedPrefController {
   Future<void> save({required Map<String, dynamic> user}) async {
     await _sharedPreferences.setBool('logged_in', true);
     await _sharedPreferences.setInt('id', user['id']);
-    print('${_sharedPreferences.getInt('id')}');
+    print('id is ${_sharedPreferences.getInt('id')}');
+    await _sharedPreferences.setString('name', user['name']);
+    print('name is ${_sharedPreferences.getString('name')}');
+
     await _sharedPreferences.setString('email', user['email']);
     await _sharedPreferences.setString('image', user['image']);
-
-    await _sharedPreferences.setString('name', user['name']);
   }
 
   Future<void> getToken({required String token}) async {

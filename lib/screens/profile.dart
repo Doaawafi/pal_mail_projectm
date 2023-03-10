@@ -35,9 +35,8 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     _emailController.text = SharedPrefController().getEmail(key: 'email')!;
-    // _emailController.text = response['name'];
 
-    _nameController = new TextEditingController();
+    _nameController.text = SharedPrefController().getValueFor('name');
   }
 
   @override
@@ -304,12 +303,14 @@ class _ProfileState extends State<Profile> {
                   minimumSize: Size(double.infinity, 60),
                 ),
                 onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  // final SharedPreferences prefs =
+                  //     await SharedPreferences.getInstance();
 
                   setState(() {
-                    prefs.setString("name", _nameController.text);
-                    prefs.setString("image", xFile!.path);
+                    SharedPrefController().profile(
+                        name: _nameController.text, image: xFile!.path);
+                    // prefs.setString("name", _nameController.text);
+                    // prefs.setString("image", );
                   });
                   _performUpload();
                 },
@@ -368,11 +369,14 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _performUpload() async {
     if (_checkData()) {
+      print('trueData');
+
       setState(() {
         loading = true;
       });
       await uploadImage();
     }
+    print('falseData');
   }
 
   bool _checkData() {
