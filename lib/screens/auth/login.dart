@@ -89,7 +89,7 @@ class _LoginState extends State<Login> {
                         begin: Alignment.centerRight,
                         colors: [
                           primaryColor,
-                          Color(0xff6589FF),
+                          Color(0xff6F4A8E),
                         ])),
               ),
             ),

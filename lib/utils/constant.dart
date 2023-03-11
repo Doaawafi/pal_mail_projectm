@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-const Color primaryColor = Color(0xff003AFC);
+const Color primaryColor = Color(0xff9e59aa);
+// const Color primaryColor = Color(0xff003AFC);
 const Color backgroundColor = Color(0xffF7F6FF);
 const Color blueLightColor = Color(0xff6589FF);
 const Color seconderyColor = Color(0xff6589FF);

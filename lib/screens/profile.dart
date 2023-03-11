@@ -161,7 +161,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             Positioned(
                               top: 100.h,
-                              left: 85,
+                              left: 80.w,
                               child: CircleAvatar(
                                 backgroundColor: primaryColor,
                                 radius: 15,

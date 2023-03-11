@@ -48,7 +48,10 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                       gradient: LinearGradient(
                           begin: Alignment.centerRight,
                           end: Alignment.centerLeft,
-                          colors: [primaryColor, blueLightColor]),
+                          colors: [
+                            primaryColor,
+                            Color(0xff6F4A8E),
+                          ]),
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(110.r),
                         bottomLeft: Radius.circular(110.r),
@@ -59,23 +62,19 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        height: 44.h,
+                        height: 20.h,
                       ),
                       SizedBox(
-                          height: 75.h,
-                          width: 163.w,
-                          child: Image.asset('images/palestine_bird.png')),
-                      Text(
-                        'ديوان رئيس الوزراء',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.ibmPlexSansArabic(
-                            fontSize: 30, color: Colors.white),
-                      )
+                          width: 200.w,
+                          height: 150.h,
+                          child: Image.asset(
+                            'images/loo.png',
+                          )),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 170, right: 30, left: 30, bottom: 0),
+                        top: 150, right: 30, left: 30, bottom: 0),
                     child: Container(
                       height: _tabController.index == 1 ? 609.h : 620.h,
                       width: 367.w,
