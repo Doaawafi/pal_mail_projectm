@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _CategoryName = data;
-      print('category data $_CategoryName');
+      // print('category data $_CategoryName');
     });
   }
 

@@ -110,7 +110,7 @@ class _SignUpState extends State<SignUp> {
                       gradient:
                           LinearGradient(begin: Alignment.bottomLeft, colors: [
                         primaryColor,
-                        Color(0xff6589FF),
+                        Color(0xff6F4A8E),
                       ])),
                 ),
               ),

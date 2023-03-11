@@ -13,11 +13,11 @@ class OrganizationNameBox extends StatelessWidget {
   final String other;
   final bool isVisible;
   final Color color;
-  final String? tags;
+  String? tags;
   final String? image;
 
   OrganizationNameBox({
-    this.tags = '#Urgent  #Egyptian Military',
+    this.tags,
     this.image = 'images/example.jpg',
     required this.organizationName,
     required this.date,
@@ -37,7 +37,7 @@ class OrganizationNameBox extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                right: 9.w,
+                right: 7.w,
               ),
               child: CircleAvatar(
                 backgroundColor: color,
@@ -47,13 +47,13 @@ class OrganizationNameBox extends StatelessWidget {
             Text(
               organizationName,
               style: GoogleFonts.poppins(
-                  fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                  fontSize: 16.0.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             Text(
               date,
               style:
-                  GoogleFonts.poppins(fontSize: 12.0.sp, color: subTitleColor),
+                  GoogleFonts.poppins(fontSize: 10.0.sp, color: subTitleColor),
             ),
             SizedBox(
               width: 8.w,
@@ -94,13 +94,21 @@ class OrganizationNameBox extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      tags!,
-                      style: GoogleFonts.poppins(
-                          fontSize: 14.0.sp,
-                          color: seconderyColor,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    tags == null
+                        ? Text(
+                            '',
+                            style: GoogleFonts.poppins(
+                                fontSize: 14.0.sp,
+                                color: seconderyColor,
+                                fontWeight: FontWeight.w600),
+                          )
+                        : Text(
+                            tags!,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14.0.sp,
+                                color: seconderyColor,
+                                fontWeight: FontWeight.w600),
+                          ),
                     Row(
                       children: [
                         ClipRRect(
