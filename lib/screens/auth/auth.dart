@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pal_mail_project/screens/auth/sign_up.dart';
-
 import '../../utils/constant.dart';
 import 'login.dart';
 
@@ -45,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                     height: 359.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient:const  LinearGradient(
                           begin: Alignment.centerRight,
                           end: Alignment.centerLeft,
                           colors: [
@@ -104,7 +100,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                                 // give the indicator a decoration (color and border radius)
                                 indicator: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
-                                    22.0.r,
+                                    20.0.r,
                                   ),
                                   color: primaryColor,
                                 ),
@@ -112,11 +108,11 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                                 tabs: [
                                   Tab(
                                     text: 'Log In',
-                                    height: 32.h,
+                                    height: 40.h,
                                   ),
                                   Tab(
                                     text: 'sign up',
-                                    height: 32.h,
+                                    height: 40.h,
                                   ),
                                 ],
                               ),

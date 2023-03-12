@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../api/Auth/auth_api_controller.dart';
 import '../../model/user.dart';
 import '../../utils/constant.dart';
@@ -92,9 +91,16 @@ class _SignUpState extends State<SignUp> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 48.h,
+                  height: 55.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22),
+                      gradient:
+                          const LinearGradient(begin: Alignment.bottomLeft, colors: [
+                        primaryColor,
+                        Color(0xff6F4A8E),
+                      ])),
                   child: loading
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
                       : Center(
@@ -105,13 +111,6 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.white,
                           ),
                         )),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22),
-                      gradient:
-                          LinearGradient(begin: Alignment.bottomLeft, colors: [
-                        primaryColor,
-                        Color(0xff6F4A8E),
-                      ])),
                 ),
               ),
               SizedBox(
@@ -132,7 +131,7 @@ class _SignUpState extends State<SignUp> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: const [
                   SocialMediaButton(
                     imgName: 'face',
                   ),
@@ -182,17 +181,91 @@ class _SignUpState extends State<SignUp> {
       });
       Navigator.pushReplacementNamed(context, HomeScreen.id);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Sign upSuccessfully',
-            style: TextStyle(fontSize: 22.sp),
-          ),
-          duration: Duration(seconds: 3),
-          padding: EdgeInsets.all(22),
-          backgroundColor: primaryColor,
-        ),
-      );
+          SnackBar(
+            content: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  height:80,
+                  decoration:  BoxDecoration(
+                      color: Colors.green.shade400,
+                      borderRadius: BorderRadius.circular(20)
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 48.w,),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("YAAH!!!",style: GoogleFonts.poppins(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                            AnimatedTextKit(
+                              animatedTexts: [
+                                TypewriterAnimatedText(
+                                  'Sign up Successfully',
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  speed: const Duration(milliseconds: 40),
+                                ),
+                              ],
+
+                              totalRepeatCount: 4,
+                            ),
+
+                            // Text("Please,Enter tags to add",style: GoogleFonts.poppins(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),),
+
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+                Positioned(
+                    bottom: 0,
+                    child: ClipRRect(
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20)),
+                        child: Image.asset("images/c.png",height: 60,width: 60))),
+                Positioned(
+                    top: -20,
+                    left: 0,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset("images/close.png",height: 40,width: 50,color: Colors.green.shade300,),
+                        const Icon(Icons.done)
+                        // Image.asset("images/ss.png",height: 40,width: 25),
+                      ],
+                    ))
+                // SvgPicture.asset("images/svg/error.svg",height: 48,width: 40,color: Colors.white,)
+              ],
+            ),
+            backgroundColor: Colors.transparent,
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            duration:const  Duration(
+              milliseconds: 10000,
+            ),
+
+
+          ));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(
+      //       'Sign upSuccessfully',
+      //       style: TextStyle(fontSize: 22.sp),
+      //     ),
+      //     duration: Duration(seconds: 3),
+      //     padding: EdgeInsets.all(22),
+      //     backgroundColor: primaryColor,
+      //   ),
+      // );
     }
+
   }
 
   User get user {

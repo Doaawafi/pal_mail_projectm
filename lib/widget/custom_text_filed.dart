@@ -24,17 +24,17 @@ class CustomTextFiled extends StatelessWidget {
           //<-- SEE HERE
           borderSide: BorderSide(
             width: 1.w,
-            color: Color(0xffEAEAF5),
+            color: const Color(0xffEAEAF5),
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
           color: Color(0xff003AFC),
         )),
-        hoverColor: Color(0xff003AFC),
+        hoverColor: const Color(0xff003AFC),
         hintStyle: GoogleFonts.poppins(
-          fontSize: 12.sp,
-          color: Color(0xffB2B2B2),
+          fontSize: 15.sp,
+          color: const Color(0xffB2B2B2),
         ),
       ),
     );

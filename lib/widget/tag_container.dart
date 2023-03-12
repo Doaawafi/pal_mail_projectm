@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,8 +12,17 @@ class TagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       decoration: BoxDecoration(
-          color: const Color(0xffE6E6E6),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xFFC499BA),
+            blurRadius: 5,
+            // offset: Offset(-0.3, -5),
+
+          )
+        ],
+          color: const Color(0xFFFFAACF),
           borderRadius: BorderRadius.circular(25.r)),
       child: Center(
         child: Text(
@@ -20,7 +30,8 @@ class TagContainer extends StatelessWidget {
           style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
               fontSize: 14.sp,
-              color: const Color(0xff7C7C7C)),
+              color: Colors.white
+          ),
         ),
       ),
     );

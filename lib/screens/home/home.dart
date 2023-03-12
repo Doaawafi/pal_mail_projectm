@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:pal_mail_project/screens/search_screen.dart';
 import 'package:pal_mail_project/utils/constant.dart';
-
 import '../../api/api_setting.dart';
+import '../../api/tag_api_controller.dart';
+import '../../model/tag.dart';
 import '../../utils/prefs.dart';
 import '../../widget/category_widget.dart';
 import '../../widget/organization_name_box.dart';
@@ -107,9 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final Size  size= MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: ListView(
+
         children: [
           Padding(
             padding: const EdgeInsets.only(
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  child: Icon(Icons.menu),
+                  child: const Icon(Icons.menu),
                   onTap: () {
                     Navigator.pushNamed(context, Profile.id);
                   },
@@ -141,12 +142,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          SearchBox(),
+          const SearchBox(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _loadedStatues.isEmpty
-                ? Center(child: CircularProgressIndicator())
-                : GridView.builder(
+                ? const Center(child: CircularProgressIndicator())
+                :
+            GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 1.5,
@@ -167,8 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
             child: _CategoryName.isEmpty
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
+                ? const Center(child: CircularProgressIndicator())
+                :
+            ListView.builder(
                     shrinkWrap: true,
                     itemCount: _CategoryName.length,
                     itemBuilder: (context, index) {
@@ -223,28 +226,64 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               decoration: inboxDecoration,
               child: _tag.isEmpty
-                  ? Center(child: CircularProgressIndicator())
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 2.2,
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 8.h,
-                          crossAxisSpacing: 8.w),
-                      itemCount: _tag.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: TagContainer(
-                            text: _tag[index]['name'],
+                  ? const Center(child: CircularProgressIndicator())
+                  :
+              FutureBuilder<List<Tag>>(
+                  future: TagsApiController().fetchTags(),
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState==ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    else if (snapshot.hasData && snapshot.data!.isNotEmpty){
+                      return Flexible(
+                        child: Container(
+                          decoration: inboxDecoration,
+                          child: GridView.builder(
+                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 2.2,
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 5.h,
+                                crossAxisSpacing: 10.w
+                            ),
+                            shrinkWrap: true,
+                            itemCount:snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                                child: TagContainer(
+                                  text: snapshot.data![index].name,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    }
+                    else{
+                      return const  Center(child: Text("No Tags To Display"));
+                    }
+                  }
+              ),
+              // GridView.builder(
+              //         shrinkWrap: true,
+              //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //             childAspectRatio: 2.2,
+              //             crossAxisCount: 3,
+              //             mainAxisSpacing: 8.h,
+              //             crossAxisSpacing: 8.w),
+              //         itemCount: _tag.length,
+              //         scrollDirection: Axis.vertical,
+              //         itemBuilder: (context, index) {
+              //           return Padding(
+              //             padding: const EdgeInsets.all(16),
+              //             child: TagContainer(
+              //               text: _tag[index]['name'],
+              //             ),
+              //           );
+              //         },
+              //       ),
             ),
           ),
-
           // Padding(
           //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           //   child: Container(

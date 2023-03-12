@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
             SenderSearch.id: (context) => SenderSearch(),
             SearchScreen.id: (context) => SearchScreen(),
             Profile.id: (context) => Profile(),
+            TagScreen.id: (context) => TagScreen(),
           },
         );
       },
