@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pal_mail_project/api/api_setting.dart';
 import 'package:pal_mail_project/api/tag_api_controller.dart';
-import 'package:pal_mail_project/screens/new_inbox.dart';
 import 'package:pal_mail_project/widget/custom_header.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/tag.dart';
 import '../utils/constant.dart';
 import 'package:http/http.dart' as http;
 import '../widget/tag_container.dart';
+import 'new_inbox.dart';
 
 class TagScreen extends StatefulWidget {
   static const String id = 'TagScreen';
@@ -73,7 +73,7 @@ class _TagScreenState extends State<TagScreen> {
             children: [
               InkWell(
                 onTap: ()=>Navigator.pushNamed(context, NewInbox.id),
-                  child: const CustomHeader(title: 'Tags')),
+                  child:  CustomHeader(title: 'Tags', onPressed: () {  },)),
               SizedBox(height: 50.h,),
               AnimatedTextKit(
                   animatedTexts: [

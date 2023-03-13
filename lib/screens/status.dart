@@ -18,7 +18,7 @@ class _StatusScreenState extends State<StatusScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomHeader(title: 'Status'),
+            CustomHeader(title: 'Status', onPressed: () {  },),
             SizedBox(
               height: 40,
             ),

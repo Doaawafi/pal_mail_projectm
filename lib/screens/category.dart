@@ -19,7 +19,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomHeader(title: 'Category'),
+            CustomHeader(title: 'Category', onPressed: () {  },),
             SizedBox(
               height: 40,
             ),

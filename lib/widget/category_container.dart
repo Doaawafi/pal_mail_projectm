@@ -9,7 +9,7 @@ class CategoryContainer extends StatelessWidget {
   const CategoryContainer({
     required this.text,
     required this.color,
-    super.key,
+    super.key, required Color fontColor,
   });
 
   @override

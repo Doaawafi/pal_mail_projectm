@@ -256,7 +256,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                     CategoryContainer(
                       text: 'pending',
-                      color: yellowCatColor,
+                      color: yellowCatColor, fontColor: Colors.black,
                     ),
                   ],
                 ),

@@ -22,7 +22,7 @@ class _SearchFilterState extends State<SearchFilter> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomHeader(title: ' Filter '),
+              CustomHeader(title: ' Filter ', onPressed: () {  },),
               SizedBox(
                 height: 40,
               ),

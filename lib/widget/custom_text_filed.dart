@@ -8,11 +8,18 @@ class CustomTextFiled extends StatelessWidget {
     super.key,
     required this.hintText,
     this.obsecure = false,
+    this.borderWidth = 1,
+    this.isBold = FontWeight.normal,
+    this.fontSize = 16,
     required this.controller,
   });
   final String hintText;
   final bool obsecure;
   final TextEditingController controller;
+  final int borderWidth;
+  final FontWeight isBold;
+  final double fontSize;
+
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -20,21 +27,23 @@ class CustomTextFiled extends StatelessWidget {
       obscureText: obsecure,
       decoration: InputDecoration(
         hintText: hintText,
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.all(0),
         enabledBorder: UnderlineInputBorder(
-          //<-- SEE HERE
           borderSide: BorderSide(
-            width: 1.w,
-            color: const Color(0xffEAEAF5),
+            width: borderWidth.w,
+            color: Color(0xffEAEAF5),
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
           color: Color(0xff003AFC),
         )),
-        hoverColor: const Color(0xff003AFC),
+        hoverColor: Color(0xff003AFC),
         hintStyle: GoogleFonts.poppins(
-          fontSize: 15.sp,
-          color: const Color(0xffB2B2B2),
+          fontSize: fontSize.sp,
+          fontWeight: isBold,
+          color: Color(0xffB2B2B2),
         ),
       ),
     );

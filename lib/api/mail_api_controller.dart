@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:pal_mail_project/model/api_response.dart';
 import 'package:pal_mail_project/model/mail.dart';
-
 import '../../utils/prefs.dart';
-import '../api_setting.dart';
+import 'api_setting.dart';
 
 class MailApiController {
   // create Mail <<DONE >>>

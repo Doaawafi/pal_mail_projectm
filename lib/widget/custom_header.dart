@@ -7,10 +7,12 @@ import '../utils/constant.dart';
 
 class CustomHeader extends StatelessWidget {
   final String title;
+  final Function() onPressed;
 
-  const CustomHeader({
+  CustomHeader({
     super.key,
     required this.title,
+    required this.onPressed,
   });
 
   @override
@@ -18,9 +20,15 @@ class CustomHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Cancel',
-          style: GoogleFonts.poppins(fontSize: 18.sp, color: seconderyColor),
+        TextButton(
+          style: TextButton.styleFrom(foregroundColor: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            'Cancel',
+            style: GoogleFonts.poppins(fontSize: 18.sp, color: seconderyColor),
+          ),
         ),
         Text(
           title,
@@ -30,12 +38,16 @@ class CustomHeader extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: Colors.black),
         ),
-        Text(
-          'Done',
-          style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
-              color: seconderyColor),
+        TextButton(
+          style: TextButton.styleFrom(foregroundColor: Colors.black),
+          onPressed: onPressed,
+          child: Text(
+            'Done',
+            style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                fontSize: 18.sp,
+                color: seconderyColor),
+          ),
         ),
       ],
     );

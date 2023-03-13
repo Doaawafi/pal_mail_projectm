@@ -110,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: ListView(
-
         children: [
           Padding(
             padding: const EdgeInsets.only(
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, SearchScreen.id);
+                          // Navigator.pushNamed(context, SearchScreen.id);
                         },
                         icon: const Icon(Icons.search)),
                     const CircleAvatar(
@@ -147,8 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _loadedStatues.isEmpty
                 ? const Center(child: CircularProgressIndicator())
-                :
-            GridView.builder(
+                : GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 1.5,
@@ -170,8 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
             child: _CategoryName.isEmpty
                 ? const Center(child: CircularProgressIndicator())
-                :
-            ListView.builder(
+                : ListView.builder(
                     shrinkWrap: true,
                     itemCount: _CategoryName.length,
                     itemBuilder: (context, index) {
@@ -180,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .copyWith(dividerColor: Colors.transparent),
                         child: ExpansionTile(
                           childrenPadding: const EdgeInsets.only(bottom: 20),
-                          initiallyExpanded: true,
+                          initiallyExpanded: false,
                           title: Text(
                             _CategoryName[index]['name'],
                             style: GoogleFonts.poppins(
@@ -227,43 +224,44 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: inboxDecoration,
               child: _tag.isEmpty
                   ? const Center(child: CircularProgressIndicator())
-                  :
-              FutureBuilder<List<Tag>>(
-                  future: TagsApiController().fetchTags(),
-                  builder: (context, snapshot){
-                    if(snapshot.connectionState==ConnectionState.waiting){
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    else if (snapshot.hasData && snapshot.data!.isNotEmpty){
-                      return Flexible(
-                        child: Container(
-                          decoration: inboxDecoration,
-                          child: GridView.builder(
-                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 2.2,
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 5.h,
-                                crossAxisSpacing: 10.w
+                  : FutureBuilder<List<Tag>>(
+                      future: TagsApiController().fetchTags(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.isNotEmpty) {
+                          return Flexible(
+                            child: Container(
+                              decoration: inboxDecoration,
+                              child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: 2.2,
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 5.h,
+                                        crossAxisSpacing: 10.w),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    child: TagContainer(
+                                      text: snapshot.data![index].name,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                            shrinkWrap: true,
-                            itemCount:snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                                child: TagContainer(
-                                  text: snapshot.data![index].name,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                    else{
-                      return const  Center(child: Text("No Tags To Display"));
-                    }
-                  }
-              ),
+                          );
+                        } else {
+                          return const Center(
+                              child: Text("No Tags To Display"));
+                        }
+                      }),
               // GridView.builder(
               //         shrinkWrap: true,
               //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
